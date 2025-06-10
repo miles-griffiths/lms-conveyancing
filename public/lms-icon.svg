@@ -1,0 +1,78 @@
+<svg width="225" height="271.19" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1">
+ <defs>
+  <linearGradient y2="-0.17737" x2="0.9949" y1="1.15664" x1="0.03754" id="linear-gradient">
+   <stop stop-opacity="0" stop-color="#fff" offset="0"/>
+   <stop stop-opacity="0.02" stop-color="#fbfdfd" offset="0.15"/>
+   <stop stop-opacity="0.08" stop-color="#f1f9f7" offset="0.3"/>
+   <stop stop-opacity="0.19" stop-color="#dff1ed" offset="0.44"/>
+   <stop stop-opacity="0.34" stop-color="#c6e7df" offset="0.59"/>
+   <stop stop-opacity="0.53" stop-color="#a6dacd" offset="0.73"/>
+   <stop stop-opacity="0.76" stop-color="#80cab8" offset="0.87"/>
+   <stop stop-color="#59baa2" offset="1"/>
+  </linearGradient>
+  <linearGradient y2="-0.18215" x2="1.00088" y1="1.15186" x1="0.04352" id="linear-gradient-2">
+   <stop stop-opacity="0" stop-color="#fff" offset="0"/>
+   <stop stop-opacity="0.03" stop-color="#f9fcfc" offset="0.11"/>
+   <stop stop-opacity="0.12" stop-color="#eaf6f3" offset="0.27"/>
+   <stop stop-opacity="0.27" stop-color="#d2ece5" offset="0.44"/>
+   <stop stop-opacity="0.48" stop-color="#b0ded2" offset="0.63"/>
+   <stop stop-opacity="0.74" stop-color="#84ccba" offset="0.83"/>
+   <stop stop-color="#59baa2" offset="1"/>
+  </linearGradient>
+  <linearGradient y2="-0.17275" x2="0.99767" y1="1.16126" x1="0.04031" id="linear-gradient-3">
+   <stop stop-color="#59baa2" offset="0"/>
+   <stop stop-opacity="0.85" stop-color="#71c4af" offset="0.08"/>
+   <stop stop-opacity="0.59" stop-color="#9cd5c7" offset="0.25"/>
+   <stop stop-opacity="0.38" stop-color="#bfe4db" offset="0.41"/>
+   <stop stop-opacity="0.21" stop-color="#dbf0eb" offset="0.57"/>
+   <stop stop-opacity="0.1" stop-color="#eff8f6" offset="0.72"/>
+   <stop stop-opacity="0.02" stop-color="#fafdfc" offset="0.87"/>
+   <stop stop-opacity="0" stop-color="#fff" offset="1"/>
+  </linearGradient>
+  <linearGradient y2="0.98328" x2="1.17247" y1="0.01662" x1="-0.17455" data-name="New Gradient Swatch 2" id="New_Gradient_Swatch_2">
+   <stop stop-opacity="0" stop-color="#fff" offset="0"/>
+   <stop stop-opacity="0.03" stop-color="#f9fcfc" offset="0.12"/>
+   <stop stop-opacity="0.12" stop-color="#ebf6f3" offset="0.27"/>
+   <stop stop-opacity="0.26" stop-color="#d3ece6" offset="0.44"/>
+   <stop stop-opacity="0.46" stop-color="#b1ded3" offset="0.62"/>
+   <stop stop-opacity="0.72" stop-color="#87cdbc" offset="0.82"/>
+   <stop stop-color="#59baa2" offset="1"/>
+  </linearGradient>
+  <linearGradient y2="0.98082" x2="1.19296" y1="0.02346" x1="-0.19075" id="linear-gradient-4">
+   <stop stop-opacity="0" stop-color="#fff" offset="0"/>
+   <stop stop-opacity="0.03" stop-color="#f9fcfc" offset="0.12"/>
+   <stop stop-opacity="0.12" stop-color="#ebf6f4" offset="0.27"/>
+   <stop stop-opacity="0.26" stop-color="#d3ede6" offset="0.44"/>
+   <stop stop-opacity="0.46" stop-color="#b2dfd4" offset="0.62"/>
+   <stop stop-opacity="0.71" stop-color="#88cdbc" offset="0.81"/>
+   <stop stop-color="#59baa2" offset="1"/>
+  </linearGradient>
+  <linearGradient y2="0.97296" x2="1.18461" y1="0.01668" x1="-0.14775" id="linear-gradient-5">
+   <stop stop-color="#59baa2" offset="0"/>
+   <stop stop-opacity="0.81" stop-color="#78c7b3" offset="0.1"/>
+   <stop stop-opacity="0.57" stop-color="#a1d8ca" offset="0.26"/>
+   <stop stop-opacity="0.36" stop-color="#c2e6dd" offset="0.41"/>
+   <stop stop-opacity="0.2" stop-color="#ddf0ec" offset="0.56"/>
+   <stop stop-opacity="0.09" stop-color="#eff8f6" offset="0.71"/>
+   <stop stop-opacity="0.02" stop-color="#fbfdfc" offset="0.86"/>
+   <stop stop-opacity="0" stop-color="#fff" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1">
+   <rect id="svg_2" transform="rotate(-31.47 -46.6 51.89)" fill="url(#linear-gradient)" height="50.68" width="100.63" y="135.19" x="-28.13" class="cls-5"/>
+   <rect id="svg_3" transform="rotate(-31.47 -101.04 67.22)" fill="url(#linear-gradient-2)" height="50.68" width="100.63" y="254.81" x="-82.57" class="cls-4"/>
+   <rect id="svg_4" transform="rotate(-31.47 -60.99 104.3)" fill="url(#linear-gradient-3)" height="50.68" width="100.63" y="239.36" x="43.31" class="cls-3"/>
+   <rect id="svg_5" transform="rotate(-60.27 -15.58 87.52)" fill="url(#New_Gradient_Swatch_2)" height="101.59" width="50.67" y="93.91" x="26.67" class="cls-7"/>
+   <rect id="svg_6" transform="rotate(-58.91 -17.93 184.76)" fill="url(#linear-gradient-4)" height="100.23" width="50.68" y="242.89999" x="111.35" class="cls-2"/>
+   <rect id="svg_7" transform="rotate(-58.72 -104.13 134.64)" fill="url(#linear-gradient-5)" height="103.22" width="50.67" y="242.9" x="-61.88" class="cls-1"/>
+   <circle id="svg_8" fill="#59baa2" r="25.87" cy="239.59" cx="25.87" class="cls-8"/>
+   <circle id="svg_9" fill="#59baa2" r="25.87" cy="31.01" cx="25.87" class="cls-8"/>
+   <circle id="svg_10" fill="#59baa2" r="25.87" cy="134.52" cx="197.53" class="cls-8"/>
+   <circle id="svg_11" fill="#59baa2" r="25.87" cy="82.77" cx="111.7" class="cls-8"/>
+   <circle id="svg_12" fill="#59baa2" r="25.87" cy="187.06" cx="111.7" class="cls-8"/>
+   <circle id="svg_13" fill="#59baa2" r="25.87" cy="134.52" cx="25.87" class="cls-8"/>
+  </g>
+ </g>
+</svg>

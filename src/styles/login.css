@@ -1,0 +1,74 @@
+/* Root layout */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Wrapper that centers the content */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #f3f4f6; /* Optional: light gray */
+  box-sizing: border-box;
+}
+
+/* Login box styling */
+.login-box {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 360px;
+  width: 100%;
+}
+
+/* Logo */
+.login-logo {
+  width: 120px;
+  margin-bottom: 1.5rem;
+}
+
+/* Input styling */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Button styling */
+button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background-color: #5fd1bc; /* LMS green */
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  opacity: 1 !important;       /* <- Force visibility just in case */
+  visibility: visible !important;
+}
+
+button:hover {
+  background-color: #369b89;
+}
+
+/* Error message */
+.error {
+  color: #dc2626;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
