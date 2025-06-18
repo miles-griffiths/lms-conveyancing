@@ -1,0 +1,33 @@
+{
+  "nodes": [
+    { "id": "home", "data": { "type": "Root", "label": "Home" } },
+
+    { "id": "quick-links", "data": { "type": "SectionQuickLinks", "label": "Quick Links" } },
+    { "id": "conveyancing", "data": { "type": "SectionConveyancing", "label": "Conveyancing" } },
+
+    { "id": "dashboard", "data": { "type": "SectionQuickLinks", "label": "Main Dashboard", "icon": "fa-solid fa-house" } },
+    { "id": "case7454", "data": { "type": "SectionQuickLinks", "label": "Case 7454", "icon": "fa-solid fa-file" } },
+    { "id": "case6541", "data": { "type": "SectionQuickLinks", "label": "Case 6541", "icon": "fa-solid fa-file" } },
+    { "id": "case6549", "data": { "type": "SectionQuickLinks", "label": "Case 6549", "icon": "fa-solid fa-file" } },
+
+    { "id": "purchase", "data": { "type": "SectionConveyancing", "label": "Purchase", "icon": "fa-solid fa-hand-holding-usd" } },
+    { "id": "remortgage", "data": { "type": "SectionConveyancing", "label": "Remortgage", "icon": " fa-solid fa-hand-holding-usd" } },
+    { "id": "sale", "data": { "type": "SectionConveyancing", "label": "Sale", "icon": "fa-solid fa-sign-hanging" } },
+    { "id": "lettings", "data": { "type": "SectionConveyancing", "label": "Lettings", "icon": "fa-solid fa-key" } }
+
+  ],
+  "edges": [
+    { "id": "e1", "source": "home", "target": "conveyancing" },
+    { "id": "e2", "source": "home", "target": "quick-links" },
+
+    { "id": "e3", "source": "conveyancing", "target": "purchase" },
+    { "id": "e4", "source": "conveyancing", "target": "remortgage" },
+    { "id": "e5", "source": "conveyancing", "target": "sale" },
+    { "id": "e6", "source": "conveyancing", "target": "lettings" },
+
+    { "id": "e7", "source": "quick-links", "target": "dashboard" },
+    { "id": "e8", "source": "quick-links", "target": "case7454" },
+    { "id": "e9", "source": "quick-links", "target": "case6541" },
+    { "id": "e10", "source": "quick-links", "target": "case6549" }
+  ]
+}

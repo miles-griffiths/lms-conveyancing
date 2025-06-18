@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Ogma from "@linkurious/ogma";
 import Header from "../components/Header";
-import graphData from "../data/data.json";
+import menuData from "../data/menu.json";
 
 const HomeGraph: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -14,12 +14,48 @@ const HomeGraph: React.FC = () => {
     // Create a new instance of Ogma
     const ogma = new Ogma({ container: containerRef.current });
 
-    const conveyancingIds = ["purchase", "remortgage", "sale", "lettings"];
-    const quickLinkIds = ["dashboard", "case7454", "case6541a", "case6541b"];
+    const topLevelSectionIds = menuData.edges
+      .filter(edge => edge.source === "home")
+      .map(edge => edge.target);
+
+    const sectionTileMap: Record<string, string[]> = {};
+      topLevelSectionIds.forEach(sectionId => {
+        const tileIds = menuData.edges
+          .filter(edge => edge.source === sectionId)
+          .map(edge => edge.target);
+
+        sectionTileMap[sectionId] = tileIds;
+      });
+
+    const conveyancingIds = sectionTileMap["conveyancing"];
+    const quickLinkIds = sectionTileMap["quick-links"];
     const hiddenNodeIds = [...conveyancingIds, ...quickLinkIds];
-    
-    // Add Styling, Rules and Mapping
-    document.fonts.ready.then(() => {
+
+    // Function to apply styles once ogma.rules is available
+    const applyStyles = () => {
+      if (!ogma.rules) {
+        requestAnimationFrame(applyStyles);
+        return;
+      }
+
+      // Add Font-Awesome icons
+      ogma.styles.addNodeRule({
+        icon: {
+          font: 'Font Awesome 5 Free',
+          scale: 0.5,
+          color: '#000',
+          content: ogma.rules.map({
+            field: 'type',
+            values: {
+              Root: '\uf015',                // Home icon
+              SectionConveyancing: '\uf0c1', // Link icon
+              SectionQuickLinks: '\uf1b2'    // Cube icon
+            },
+            fallback: '\uf128'               // Info icon for unspecified types
+          })
+        }
+      });
+
       ogma.styles.addNodeRule({
         radius: ogma.rules.map({
           field: 'type',
@@ -44,18 +80,15 @@ const HomeGraph: React.FC = () => {
         })
       });
 
-      // Note: I've had to keep the above original colour mapping, as the first
-      //       fackback below does't work!! If the above is removed the Home and
-      //       Section nodes display with a grey colour.
       ogma.styles.addNodeRule({
         color: ogma.rules.map({
           field: 'id',
           values: {
-            purchase: '#8cbae8',                 // Light Blue 
+            purchase: '#8cbae8',
             remortgage: '#8cbae8',
             sale: '#8cbae8',
             lettings: '#8cbae8',
-            dashboard: '#8cbae8',                 // Light Blue 
+            dashboard: '#8cbae8',
             case7454: '#8cbae8',
             case6541a: '#8cbae8',
             case6541b: '#8cbae8'
@@ -63,8 +96,8 @@ const HomeGraph: React.FC = () => {
           fallback: ogma.rules.map({
             field: 'type',
             values: {
-              Root: '#4CAF50',                   // Green for Home node
-              SectionConveyancing: '#1976d2',    // Blue for Section node
+              Root: '#4CAF50',
+              SectionConveyancing: '#1976d2',
               SectionQuickLinks: '#1976d2'
             },
             fallback: '#64b5f6'
@@ -72,30 +105,10 @@ const HomeGraph: React.FC = () => {
         })
       });
 
-      // Add Egde width
       ogma.styles.addEdgeRule({
-        width: .5
+        width: 0.5
       });
 
-      // Add Font-Awsome icons
-      ogma.styles.addNodeRule({
-        icon: {
-          font: 'Font Awesome 5 Free',
-          scale: 0.5,
-          color: '#000',
-          content: ogma.rules.map({
-            field: 'type',
-            values: {
-              Root: '\uf015',                // Home icon
-              SectionConveyancing: '\uf0c1', // Link icon
-              SectionQuickLinks: '\uf1b2'    // Cube icon
-            },
-            fallback: '\uf128'               // Info icon for unspecified types
-          })
-        }
-      });
-
-      // Add Label display-details
       ogma.styles.addNodeRule({
         text: {
           content: node => node.getData('label'),
@@ -107,10 +120,13 @@ const HomeGraph: React.FC = () => {
           minVisibleSize: 0
         }
       });
-    });
+    };
+
+    // Start applying styles
+    applyStyles();
 
     // Display the Graph
-    const baseNodes = graphData.nodes
+    const baseNodes = menuData.nodes
       .filter(n => !hiddenNodeIds.includes(n.id))
       .map(n => ({
         id: n.id,
@@ -121,16 +137,16 @@ const HomeGraph: React.FC = () => {
         attributes: {
           radius: n.data.type === 'Root' ? 20 : n.data.type === 'Section' ? 15 : 10
         }
-      }));   
+      }));
 
-    const baseEdges = graphData.edges.filter(
+    const baseEdges = menuData.edges.filter(
       (e) =>
         !hiddenNodeIds.includes(e.source.toString()) &&
         !hiddenNodeIds.includes(e.target.toString())
     );
 
-    // Conveyancy Nodes
-    const conveyancingNodes = graphData.nodes
+    // Conveyancing Nodes
+    const conveyancingNodes = menuData.nodes
       .filter((n) => conveyancingIds.includes(n.id))
       .map((n) => ({
         id: n.id,
@@ -141,14 +157,14 @@ const HomeGraph: React.FC = () => {
         }
       }));
 
-    const conveyancingEdges = graphData.edges.filter(
+    const conveyancingEdges = menuData.edges.filter(
       (e) =>
         conveyancingIds.includes(e.source.toString()) ||
         conveyancingIds.includes(e.target.toString())
     );
 
     // Quick Link Nodes
-    const quickLinkNodes = graphData.nodes
+    const quickLinkNodes = menuData.nodes
       .filter((n) => quickLinkIds.includes(n.id))
       .map((n) => ({
         id: n.id,
@@ -158,18 +174,18 @@ const HomeGraph: React.FC = () => {
           label: n.data.label
         }
       }));
-      
-    const quickLinkEdges = graphData.edges.filter(
+
+    const quickLinkEdges = menuData.edges.filter(
       (e) =>
         quickLinkIds.includes(e.source.toString()) ||
         quickLinkIds.includes(e.target.toString())
     );
 
     ogma.addGraph({ nodes: baseNodes, edges: baseEdges });
-    ogma.layouts.force({ 
+    ogma.layouts.force({
       gravity: 0.05,
       charge: 5
-     });
+    });
 
     ogma.events.onClick(async ({ target }) => {
       if (!target || !target.isNode) return;
@@ -195,9 +211,9 @@ const HomeGraph: React.FC = () => {
         }
       }
 
-      await ogma.layouts.force({ 
+      await ogma.layouts.force({
         gravity: 0.05,
-        charge: 5 
+        charge: 5
       });
     });
 

@@ -75,3 +75,13 @@
 .section-block {
   margin-top: 40px; /* Adjust as needed */
 }
+
+.tile-icon {
+  font-size: 55px;
+  margin-bottom: 8px;
+}
+.fallback-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: #ccc;
+}
