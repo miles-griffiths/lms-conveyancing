@@ -42,12 +42,12 @@ const LoginBox: React.FC = () => {
     const user = validUsers[normalisedUsername];
 
     if (user && user.password === password) {
-      navigate("/home", {
-        state: {
-          name: user.name,
-          photo: user.photo,
-        },
-      });
+      localStorage.setItem("user", JSON.stringify({
+        name: user.name,
+        photo: user.photo
+      }));
+
+      navigate("/home");
     } else {
       setError("Invalid username or password.");
     }

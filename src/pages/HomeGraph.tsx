@@ -222,7 +222,7 @@ const HomeGraph: React.FC = () => {
 
   return (
     <div className="home-container">
-      <Header />
+      <Header pageTitle="GRAPH" />
       <div
         ref={containerRef}
         style={{ flexGrow: 1, height: "calc(100vh - 80px)" }}

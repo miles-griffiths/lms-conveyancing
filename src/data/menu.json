@@ -5,15 +5,15 @@
     { "id": "quick-links", "data": { "type": "SectionQuickLinks", "label": "Quick Links" } },
     { "id": "conveyancing", "data": { "type": "SectionConveyancing", "label": "Conveyancing" } },
 
-    { "id": "dashboard", "data": { "type": "SectionQuickLinks", "label": "Main Dashboard", "icon": "fa-solid fa-house" } },
-    { "id": "case7454", "data": { "type": "SectionQuickLinks", "label": "Case 7454", "icon": "fa-solid fa-file" } },
-    { "id": "case6541", "data": { "type": "SectionQuickLinks", "label": "Case 6541", "icon": "fa-solid fa-file" } },
-    { "id": "case6549", "data": { "type": "SectionQuickLinks", "label": "Case 6549", "icon": "fa-solid fa-file" } },
+    { "id": "dashboard", "data": { "type": "SectionQuickLinks", "label": "Main Dashboard", "icon": "fa-solid fa-house","navigateTo": "" } },
+    { "id": "case7454", "data": { "type": "SectionQuickLinks", "label": "Case 7454", "icon": "fa-solid fa-file", "navigateTo": "" } },
+    { "id": "case6541", "data": { "type": "SectionQuickLinks", "label": "Case 6541", "icon": "fa-solid fa-file", "navigateTo": "" } },
+    { "id": "case6549", "data": { "type": "SectionQuickLinks", "label": "Case 6549", "icon": "fa-solid fa-file", "navigateTo": "" } },
 
-    { "id": "purchase", "data": { "type": "SectionConveyancing", "label": "Purchase", "icon": "fa-solid fa-hand-holding-usd" } },
-    { "id": "remortgage", "data": { "type": "SectionConveyancing", "label": "Remortgage", "icon": " fa-solid fa-hand-holding-usd" } },
-    { "id": "sale", "data": { "type": "SectionConveyancing", "label": "Sale", "icon": "fa-solid fa-sign-hanging" } },
-    { "id": "lettings", "data": { "type": "SectionConveyancing", "label": "Lettings", "icon": "fa-solid fa-key" } }
+    { "id": "purchase", "data": { "type": "SectionConveyancing", "label": "Purchase", "icon": "fa-solid fa-hand-holding-usd", "navigateTo": "" } },
+    { "id": "remortgage", "data": { "type": "SectionConveyancing", "label": "Remortgage", "icon": " fa-solid fa-hand-holding-usd", "navigateTo": "cases" } },
+    { "id": "sale", "data": { "type": "SectionConveyancing", "label": "Sale", "icon": "fa-solid fa-sign-hanging", "navigateTo": "" } },
+    { "id": "lettings", "data": { "type": "SectionConveyancing", "label": "Lettings", "icon": "fa-solid fa-key", "navigateTo": "" } }
 
   ],
   "edges": [

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import menuData from "../data/menu.json";
 import "../styles/homepage.css";
@@ -8,17 +9,14 @@ type Node = {
   data: {
     type: string;
     label: string;
-    icon?: string; // Optional icon field
+    icon?: string;
+    navigateTo?: string;
   };
 };
 
-type Edge = {
-  id: string;
-  source: string;
-  target: string;
-};
-
 const HomePage: React.FC = () => {
+  const navigate = useNavigate();
+
   const sections: Node[] = menuData.nodes.filter(
     (node) =>
       node.id !== "home" &&
@@ -35,17 +33,33 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="home-container">
-      <Header />
-
+      <Header pageTitle="HOME" />
       {sections.map((section) => {
         const tiles = getTilesForSection(section.id);
-
         return (
           <section className="section-block" key={section.id}>
             <div className="section-header">{section.data.label}</div>
             <div className="tile-grid">
               {tiles.map((tile) => (
-                <div className="tile" key={tile.id}>
+                <div
+                  className="tile"
+                  key={tile.id}
+                  onClick={() => {
+                    const destination = tile.data.navigateTo?.trim();
+                    if (!destination) return;
+                      const localUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+                      navigate(`/${destination.toLowerCase()}`, {
+                        state: {
+                          title: tile.data.label,
+                          name: localUser.name,
+                          photo: localUser.photo,
+                        },
+                      });
+                   }}
+                    style={{
+                     cursor: tile.data.navigateTo ? "pointer" : "default",
+                    }}>
                   {tile.data.icon ? (
                     <i className={`tile-icon ${tile.data.icon}`} aria-hidden="true" />
                   ) : (

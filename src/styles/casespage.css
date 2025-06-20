@@ -1,0 +1,99 @@
+.section-block {
+  margin: 0;
+  padding-top: 2rem;
+}
+
+.section-header {
+  background-color: #165a78;
+  color: white;
+  font-weight: bold;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+}
+
+.case-table-header {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  font-weight: bold;
+  padding: 1rem 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.case-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.case-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-items: center;
+  background-color: #fff;
+  border: 2px solid #165a78;
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.case-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.case-cell:not(:last-child) {
+  border-right: 1px dotted #ccc;
+}
+
+.case-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.pagination button {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  background-color: #f4f4f4;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+/* Wider nav buttons */
+.pagination .nav-btn {
+  width: 80px;       /* fixed width for Prev / Next */
+}
+
+/* Narrower page number buttons */
+.pagination .page-btn {
+  width: 42px;       /* just enough for '999' */
+  text-align: center;
+  padding: 0.5rem 0.25rem;
+}
+
+.pagination button.active {
+  background-color: #165a78;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

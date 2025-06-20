@@ -2,19 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/lms-logo.svg";
 
-type LocationState = {
-  name?: string;
-  photo?: string;
-};
+interface HeaderProps {
+  pageTitle: string;
+}
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({ pageTitle }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const state = location.state as LocationState || {};
-  const localUser = JSON.parse(localStorage.getItem("user") || "{}");
 
-  const name = state.name || localUser.name;
-  const photo = state.photo || localUser.photo;
+  const localUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const name = localUser.name;
+  const photo = localUser.photo;
 
   const dropdownRef = useRef<HTMLSpanElement>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -32,10 +30,12 @@ const Header: React.FC = () => {
   };
 
   const togglePage = () => {
-    if (location.pathname === "/graph") {
-      navigate("/home", { state: { name, photo } });
+    const currentPath = location.pathname;
+
+    if (currentPath === "/graph" || currentPath === "/cases") {
+      navigate("/home");
     } else {
-      navigate("/graph", { state: { name, photo } });
+      navigate("/graph");
     }
   };
 
@@ -44,7 +44,7 @@ const Header: React.FC = () => {
       <div className="flex items-center justify-between px-6 py-4 w-full">
         <div className="flex items-center gap-4">
           <img src={logo} alt="LMS Logo" className="home-logo" />
-          <h1 className="home-title">{location.pathname === "/home" ? "HOME PAGE" : "HOME GRAPH"}</h1>
+          <h1 className="home-title">{pageTitle}</h1>
         </div>
 
         {name && photo && (
@@ -52,7 +52,7 @@ const Header: React.FC = () => {
             <div className="flex items-center gap-2">
               <span
                 onClick={togglePage}
-                title="Toggle Home/Graph"
+                title="Toggle between Home and Graph Page"
                 style={{
                   cursor: "pointer",
                   fontSize: "1.2rem",
@@ -61,7 +61,7 @@ const Header: React.FC = () => {
                   alignItems: "center",
                 }}
               >
-                <i className={`fas ${location.pathname === "/graph" ? "fa-home" : "fa-chart-line"}`} />
+                <i className={`fas ${location.pathname === "/graph" || location.pathname === "/cases" ? "fa-home" : "fa-chart-line"}`} />
                 &nbsp;&nbsp;&nbsp;&nbsp;
               </span>
 
@@ -89,7 +89,6 @@ const Header: React.FC = () => {
                   </div>
                 )}
               </div>
-
             </div>
 
             <img
