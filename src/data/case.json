@@ -12,7 +12,9 @@
     "lawFirmId": "LF007",
     "lawFirmLogo": "carter-law.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 53.375983,
+    "longitude": -1.470857
   },
   {
     "caseId": "CASE008",
@@ -27,7 +29,9 @@
     "lawFirmId": "LF008",
     "lawFirmLogo": "wilson-legal.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 53.4000,
+    "longitude": -2.993847
   },
   {
     "caseId": "CASE009",
@@ -42,7 +46,9 @@
     "lawFirmId": "LF009",
     "lawFirmLogo": "king-solicitors.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 51.862659,
+    "longitude": -2.239997
   },
   {
     "caseId": "CASE010",
@@ -57,7 +63,9 @@
     "lawFirmId": "LF010",
     "lawFirmLogo": "harris-law.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 51.455336,
+    "longitude": -0.974186
   },
   {
     "caseId": "CASE011",
@@ -72,7 +80,9 @@
     "lawFirmId": "LF011",
     "lawFirmLogo": "bennett-legal.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 52.627566,
+    "longitude": -1.117906
   },
   {
     "caseId": "CASE012",
@@ -87,7 +97,9 @@
     "lawFirmId": "LF012",
     "lawFirmLogo": "turner-solicitors.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 52.970062,
+    "longitude": -1.153121
   },
   {
     "caseId": "CASE013",
@@ -102,7 +114,9 @@
     "lawFirmId": "LF013",
     "lawFirmLogo": "adams-law.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 53.744,  /* approximate Hull city centre */
+    "longitude": -0.335  /* approximate */ 
   },
   {
     "caseId": "CASE014",
@@ -117,7 +131,9 @@
     "lawFirmId": "LF014",
     "lawFirmLogo": "wright-legal.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 52.196931,
+    "longitude": 0.135648
   },
   {
     "caseId": "CASE015",
@@ -132,7 +148,9 @@
     "lawFirmId": "LF015",
     "lawFirmLogo": "morris-legal.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 51.371761,
+    "longitude": -0.101367
   },
   {
     "caseId": "CASE016",
@@ -147,7 +165,9 @@
     "lawFirmId": "LF016",
     "lawFirmLogo": "bell-solicitors.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 51.752222,
+    "longitude": -1.257778
   },
   {
     "caseId": "CASE017",
@@ -162,7 +182,9 @@
     "lawFirmId": "LF017",
     "lawFirmLogo": "foster-legal.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 52.9225,
+    "longitude": -1.474167
   },
   {
     "caseId": "CASE018",
@@ -177,7 +199,9 @@
     "lawFirmId": "LF018",
     "lawFirmLogo": "clark-law.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 53.9579,
+    "longitude": -1.0858
   },
   {
     "caseId": "CASE019",
@@ -192,7 +216,9 @@
     "lawFirmId": "LF019",
     "lawFirmLogo": "evans-law.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 51.3813,
+    "longitude": -2.3590
   },
   {
     "caseId": "CASE020",
@@ -207,6 +233,8 @@
     "lawFirmId": "LF020",
     "lawFirmLogo": "green-solicitors.png",
     "product": "Remortgage",
-    "Jurisdiction": "E&W"
+    "Jurisdiction": "E&W",
+    "latitude": 50.8298,
+    "longitude": -0.1646
   }
 ]

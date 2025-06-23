@@ -4,6 +4,8 @@
 
     { "id": "quick-links", "data": { "type": "SectionQuickLinks", "label": "Quick Links" } },
     { "id": "conveyancing", "data": { "type": "SectionConveyancing", "label": "Conveyancing" } },
+    { "id": "advanced-network-analysis", "data": { "type": "SectionAdvancedNetworkAnalysis", "label": "Advanced Network Analysis" } },
+    { "id": "data-management", "data": { "type": "SectionDataManagement", "label": "Data Management" } },
 
     { "id": "dashboard", "data": { "type": "SectionQuickLinks", "label": "Main Dashboard", "icon": "fa-solid fa-house","navigateTo": "" } },
     { "id": "case7454", "data": { "type": "SectionQuickLinks", "label": "Case 7454", "icon": "fa-solid fa-file", "navigateTo": "" } },
@@ -13,21 +15,36 @@
     { "id": "purchase", "data": { "type": "SectionConveyancing", "label": "Purchase", "icon": "fa-solid fa-hand-holding-usd", "navigateTo": "" } },
     { "id": "remortgage", "data": { "type": "SectionConveyancing", "label": "Remortgage", "icon": " fa-solid fa-hand-holding-usd", "navigateTo": "cases" } },
     { "id": "sale", "data": { "type": "SectionConveyancing", "label": "Sale", "icon": "fa-solid fa-sign-hanging", "navigateTo": "" } },
-    { "id": "lettings", "data": { "type": "SectionConveyancing", "label": "Lettings", "icon": "fa-solid fa-key", "navigateTo": "" } }
+    { "id": "lettings", "data": { "type": "SectionConveyancing", "label": "Lettings", "icon": "fa-solid fa-key", "navigateTo": "" } },
 
+    { "id": "identity-and-fraud-detection", "data": { "type": "SectionAdvancedNetworkAnalysis", "label": "Identity and Fraud Detection", "icon": "fa-solid fa-lock", "navigateTo": "" } },
+
+    { "id": "lenders", "data": { "type": "SectionDataManagement", "label": "Lenders", "icon": "fa-solid fa-landmark", "navigateTo": "" } },
+    { "id": "law-firms", "data": { "type": "SectionDataManagement", "label": "Law Firms", "icon": "fa-solid fa-scale-balanced", "navigateTo": "" } },
+    { "id": "intermediaries", "data": { "type": "SectionDataManagement", "label": "Intermediaries", "icon": "fa-solid fa-users", "navigateTo": "" } },
+    { "id": "customers", "data": { "type": "SectionDataManagement", "label": "Customers", "icon": "fa-solid fa-user-tag", "navigateTo": "" } }
   ],
   "edges": [
     { "id": "e1", "source": "home", "target": "conveyancing" },
     { "id": "e2", "source": "home", "target": "quick-links" },
+    { "id": "e3", "source": "home", "target": "advanced-network-analysis" },
+    { "id": "e4", "source": "home", "target": "data-management" },
 
-    { "id": "e3", "source": "conveyancing", "target": "purchase" },
-    { "id": "e4", "source": "conveyancing", "target": "remortgage" },
-    { "id": "e5", "source": "conveyancing", "target": "sale" },
-    { "id": "e6", "source": "conveyancing", "target": "lettings" },
+    { "id": "e5", "source": "conveyancing", "target": "purchase" },
+    { "id": "e6", "source": "conveyancing", "target": "remortgage" },
+    { "id": "e7", "source": "conveyancing", "target": "sale" },
+    { "id": "e8", "source": "conveyancing", "target": "lettings" },
 
-    { "id": "e7", "source": "quick-links", "target": "dashboard" },
-    { "id": "e8", "source": "quick-links", "target": "case7454" },
-    { "id": "e9", "source": "quick-links", "target": "case6541" },
-    { "id": "e10", "source": "quick-links", "target": "case6549" }
+    { "id": "e9", "source": "quick-links", "target": "dashboard" },
+    { "id": "e10", "source": "quick-links", "target": "case7454" },
+    { "id": "e11", "source": "quick-links", "target": "case6541" },
+    { "id": "e12", "source": "quick-links", "target": "case6549" },
+
+    { "id": "e13", "source": "advanced-network-analysis", "target": "identity-and-fraud-detection" },
+
+    { "id": "e14", "source": "data-management", "target": "lenders" },
+    { "id": "e15", "source": "data-management", "target": "law-firms" },
+    { "id": "e16", "source": "data-management", "target": "intermediaries" },
+    { "id": "e17", "source": "data-management", "target": "customers" }
   ]
 }

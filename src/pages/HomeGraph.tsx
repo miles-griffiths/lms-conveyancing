@@ -7,11 +7,12 @@ const HomeGraph: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const conveyancingRevealed = useRef(false);
   const quickLinksRevealed = useRef(false);
+  const advancedNetworkRevealed = useRef(false);
+  const dataManagementRevealed = useRef(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Create a new instance of Ogma
     const ogma = new Ogma({ container: containerRef.current });
 
     const topLevelSectionIds = menuData.edges
@@ -19,26 +20,32 @@ const HomeGraph: React.FC = () => {
       .map(edge => edge.target);
 
     const sectionTileMap: Record<string, string[]> = {};
-      topLevelSectionIds.forEach(sectionId => {
-        const tileIds = menuData.edges
-          .filter(edge => edge.source === sectionId)
-          .map(edge => edge.target);
+    topLevelSectionIds.forEach(sectionId => {
+      const tileIds = menuData.edges
+        .filter(edge => edge.source === sectionId)
+        .map(edge => edge.target);
 
-        sectionTileMap[sectionId] = tileIds;
-      });
+      sectionTileMap[sectionId] = tileIds;
+    });
 
-    const conveyancingIds = sectionTileMap["conveyancing"];
-    const quickLinkIds = sectionTileMap["quick-links"];
-    const hiddenNodeIds = [...conveyancingIds, ...quickLinkIds];
+    const conveyancingIds = sectionTileMap["conveyancing"] || [];
+    const quickLinkIds = sectionTileMap["quick-links"] || [];
+    const advancedNetworkIds = sectionTileMap["advanced-network-analysis"] || [];
+    const dataManagementIds = sectionTileMap["data-management"] || [];
 
-    // Function to apply styles once ogma.rules is available
+    const hiddenNodeIds = [
+      ...conveyancingIds,
+      ...quickLinkIds,
+      ...advancedNetworkIds,
+      ...dataManagementIds
+    ];
+
     const applyStyles = () => {
       if (!ogma.rules) {
         requestAnimationFrame(applyStyles);
         return;
       }
 
-      // Add Font-Awesome icons
       ogma.styles.addNodeRule({
         icon: {
           font: 'Font Awesome 5 Free',
@@ -47,11 +54,14 @@ const HomeGraph: React.FC = () => {
           content: ogma.rules.map({
             field: 'type',
             values: {
-              Root: '\uf015',                // Home icon
-              SectionConveyancing: '\uf0c1', // Link icon
-              SectionQuickLinks: '\uf1b2'    // Cube icon
+              Root: '\uf015',
+              SectionConveyancing: '\uf0c1',
+              SectionQuickLinks: '\uf1b2',
+              SectionAdvancedNetworkAnalysis: '\uf085',
+              SectionIdentityAndFraudDetection: '\uf3c1',
+              SectionDataManagement: '\uf1c0'
             },
-            fallback: '\uf128'               // Info icon for unspecified types
+            fallback: '\uf128'
           })
         }
       });
@@ -62,7 +72,9 @@ const HomeGraph: React.FC = () => {
           values: {
             Root: 5,
             SectionConveyancing: 4,
-            SectionQuickLinks: 4
+            SectionQuickLinks: 4,
+            SectionAdvancedNetworkAnalysis: 4,
+            SectionDataManagement: 4
           },
           fallback: 3
         })
@@ -72,42 +84,17 @@ const HomeGraph: React.FC = () => {
         color: ogma.rules.map({
           field: 'type',
           values: {
-            Root: '#4CAF50',                // Green for Root nodes
-            SectionConveyancing: '#1976d2', // Blue for Section nodes
-            SectionQuickLinks: '#1976d2'    // Blue for Section nodes
+            Root: '#4CAF50',
+            SectionConveyancing: '#1976d2',
+            SectionQuickLinks: '#1976d2',
+            SectionAdvancedNetworkAnalysis: '#9c27b0',
+            SectionDataManagement: '#ff9800'
           },
-          fallback: '#64b5f6'               // Default color for other types
+          fallback: '#64b5f6'
         })
       });
 
-      ogma.styles.addNodeRule({
-        color: ogma.rules.map({
-          field: 'id',
-          values: {
-            purchase: '#8cbae8',
-            remortgage: '#8cbae8',
-            sale: '#8cbae8',
-            lettings: '#8cbae8',
-            dashboard: '#8cbae8',
-            case7454: '#8cbae8',
-            case6541a: '#8cbae8',
-            case6541b: '#8cbae8'
-          },
-          fallback: ogma.rules.map({
-            field: 'type',
-            values: {
-              Root: '#4CAF50',
-              SectionConveyancing: '#1976d2',
-              SectionQuickLinks: '#1976d2'
-            },
-            fallback: '#64b5f6'
-          })
-        })
-      });
-
-      ogma.styles.addEdgeRule({
-        width: 0.5
-      });
+      ogma.styles.addEdgeRule({ width: 0.5 });
 
       ogma.styles.addNodeRule({
         text: {
@@ -122,99 +109,79 @@ const HomeGraph: React.FC = () => {
       });
     };
 
-    // Start applying styles
     applyStyles();
 
-    // Display the Graph
     const baseNodes = menuData.nodes
       .filter(n => !hiddenNodeIds.includes(n.id))
       .map(n => ({
         id: n.id,
-        data: {
-          type: n.data.type,
-          label: n.data.label
-        },
+        data: { type: n.data.type, label: n.data.label },
         attributes: {
           radius: n.data.type === 'Root' ? 20 : n.data.type === 'Section' ? 15 : 10
         }
       }));
 
     const baseEdges = menuData.edges.filter(
-      (e) =>
-        !hiddenNodeIds.includes(e.source.toString()) &&
-        !hiddenNodeIds.includes(e.target.toString())
+      e => !hiddenNodeIds.includes(e.source) && !hiddenNodeIds.includes(e.target)
     );
 
-    // Conveyancing Nodes
-    const conveyancingNodes = menuData.nodes
-      .filter((n) => conveyancingIds.includes(n.id))
-      .map((n) => ({
-        id: n.id,
-        data: {
-          id: n.id,
-          type: n.data.type,
-          label: n.data.label
-        }
-      }));
+    const buildNodeData = (ids: string[]) =>
+      menuData.nodes
+        .filter(n => ids.includes(n.id))
+        .map(n => ({ id: n.id, data: { id: n.id, type: n.data.type, label: n.data.label } }));
 
-    const conveyancingEdges = menuData.edges.filter(
-      (e) =>
-        conveyancingIds.includes(e.source.toString()) ||
-        conveyancingIds.includes(e.target.toString())
-    );
+    const buildEdgeData = (ids: string[]) =>
+      menuData.edges.filter(e => ids.includes(e.source) || ids.includes(e.target));
 
-    // Quick Link Nodes
-    const quickLinkNodes = menuData.nodes
-      .filter((n) => quickLinkIds.includes(n.id))
-      .map((n) => ({
-        id: n.id,
-        data: {
-          id: n.id,
-          type: n.data.type,
-          label: n.data.label
-        }
-      }));
+    const conveyancingNodes = buildNodeData(conveyancingIds);
+    const conveyancingEdges = buildEdgeData(conveyancingIds);
 
-    const quickLinkEdges = menuData.edges.filter(
-      (e) =>
-        quickLinkIds.includes(e.source.toString()) ||
-        quickLinkIds.includes(e.target.toString())
-    );
+    const quickLinkNodes = buildNodeData(quickLinkIds);
+    const quickLinkEdges = buildEdgeData(quickLinkIds);
+
+    const advancedNetworkNodes = buildNodeData(advancedNetworkIds);
+    const advancedNetworkEdges = buildEdgeData(advancedNetworkIds);
+
+    const dataManagementNodes = buildNodeData(dataManagementIds);
+    const dataManagementEdges = buildEdgeData(dataManagementIds);
 
     ogma.addGraph({ nodes: baseNodes, edges: baseEdges });
-    ogma.layouts.force({
-      gravity: 0.05,
-      charge: 5
-    });
+    ogma.layouts.force({ gravity: 0.05, charge: 5 });
 
     ogma.events.onClick(async ({ target }) => {
       if (!target || !target.isNode) return;
       const nodeId = target.getId();
 
-      if (nodeId === "conveyancing") {
-        if (!conveyancingRevealed.current) {
-          ogma.addGraph({ nodes: conveyancingNodes, edges: conveyancingEdges });
-          conveyancingRevealed.current = true;
+      const toggleNodes = async (
+        key: string,
+        nodeSet: ReturnType<typeof buildNodeData>,
+        edgeSet: ReturnType<typeof buildEdgeData>,
+        revealedRef: React.MutableRefObject<boolean>
+      ) => {
+        if (!revealedRef.current) {
+          ogma.addGraph({ nodes: nodeSet, edges: edgeSet });
+          revealedRef.current = true;
         } else {
-          ogma.removeNodes(conveyancingIds);
-          conveyancingRevealed.current = false;
+          ogma.removeNodes(sectionTileMap[key] || []);
+          revealedRef.current = false;
         }
-      }
+        await ogma.layouts.force({ gravity: 0.05, charge: 5 });
+      };
 
-      if (nodeId === "quick-links") {
-        if (!quickLinksRevealed.current) {
-          ogma.addGraph({ nodes: quickLinkNodes, edges: quickLinkEdges });
-          quickLinksRevealed.current = true;
-        } else {
-          ogma.removeNodes(quickLinkIds);
-          quickLinksRevealed.current = false;
-        }
+      switch (nodeId) {
+        case "conveyancing":
+          await toggleNodes("conveyancing", conveyancingNodes, conveyancingEdges, conveyancingRevealed);
+          break;
+        case "quick-links":
+          await toggleNodes("quick-links", quickLinkNodes, quickLinkEdges, quickLinksRevealed);
+          break;
+        case "advanced-network-analysis":
+          await toggleNodes("advanced-network-analysis", advancedNetworkNodes, advancedNetworkEdges, advancedNetworkRevealed);
+          break;
+        case "data-management":
+          await toggleNodes("data-management", dataManagementNodes, dataManagementEdges, dataManagementRevealed);
+          break;
       }
-
-      await ogma.layouts.force({
-        gravity: 0.05,
-        charge: 5
-      });
     });
 
     return () => ogma.destroy();
@@ -223,10 +190,7 @@ const HomeGraph: React.FC = () => {
   return (
     <div className="home-container">
       <Header pageTitle="GRAPH" />
-      <div
-        ref={containerRef}
-        style={{ flexGrow: 1, height: "calc(100vh - 80px)" }}
-      />
+      <div ref={containerRef} style={{ flexGrow: 1, height: "calc(100vh - 80px)" }} />
     </div>
   );
 };
