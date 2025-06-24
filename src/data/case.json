@@ -1,5 +1,23 @@
 [
   {
+    "caseId": "CASE006",
+    "lenderName": "Nationwide",
+    "lenderLogo": "../src/assets/nationwide.png",
+    "loanAmount": 235000,
+    "initiationDate": "2025-06-15",
+    "borrowerName": "George Atkinson",
+    "address": "42 Abbeydale Road, Sheffield, S7 1FD",
+    "estateAgentId": "EA021",
+    "estateAgentLogo": "blundells.png",
+    "lawFirmId": "LF021",
+    "lawFirmLogo": "atkinson-law.png",
+    "product": "Remortgage",
+    "Jurisdiction": "E&W",
+    "latitude": 53.3686,
+    "longitude": -1.4789,
+    "county": "South Yorkshire"
+  },
+  {
     "caseId": "CASE007",
     "lenderName": "TSB",
     "lenderLogo": "../src/assets/tsb-logo.png",
@@ -14,7 +32,8 @@
     "product": "Remortgage",
     "Jurisdiction": "E&W",
     "latitude": 53.375983,
-    "longitude": -1.470857
+    "longitude": -1.470857,
+    "county": "South Yorkshire"
   },
   {
     "caseId": "CASE008",
@@ -30,8 +49,9 @@
     "lawFirmLogo": "wilson-legal.png",
     "product": "Remortgage",
     "Jurisdiction": "E&W",
-    "latitude": 53.4000,
-    "longitude": -2.993847
+    "latitude": 53.4,
+    "longitude": -2.993847,
+    "county": "Merseyside"
   },
   {
     "caseId": "CASE009",
@@ -48,7 +68,8 @@
     "product": "Remortgage",
     "Jurisdiction": "E&W",
     "latitude": 51.862659,
-    "longitude": -2.239997
+    "longitude": -2.239997,
+    "county": "Gloucestershire"
   },
   {
     "caseId": "CASE010",
@@ -65,7 +86,8 @@
     "product": "Remortgage",
     "Jurisdiction": "E&W",
     "latitude": 51.455336,
-    "longitude": -0.974186
+    "longitude": -0.974186,
+    "county": "Berkshire"
   },
   {
     "caseId": "CASE011",
@@ -82,7 +104,8 @@
     "product": "Remortgage",
     "Jurisdiction": "E&W",
     "latitude": 52.627566,
-    "longitude": -1.117906
+    "longitude": -1.117906,
+    "county": "Leicestershire"
   },
   {
     "caseId": "CASE012",
@@ -99,7 +122,8 @@
     "product": "Remortgage",
     "Jurisdiction": "E&W",
     "latitude": 52.970062,
-    "longitude": -1.153121
+    "longitude": -1.153121,
+    "county": "Nottinghamshire"
   },
   {
     "caseId": "CASE013",
@@ -115,8 +139,9 @@
     "lawFirmLogo": "adams-law.png",
     "product": "Remortgage",
     "Jurisdiction": "E&W",
-    "latitude": 53.744,  /* approximate Hull city centre */
-    "longitude": -0.335  /* approximate */ 
+    "latitude": 53.744,
+    "longitude": -0.335,
+    "county": "East Riding of Yorkshire"
   },
   {
     "caseId": "CASE014",
@@ -133,7 +158,8 @@
     "product": "Remortgage",
     "Jurisdiction": "E&W",
     "latitude": 52.196931,
-    "longitude": 0.135648
+    "longitude": 0.135648,
+    "county": "Cambridgeshire"
   },
   {
     "caseId": "CASE015",
@@ -150,7 +176,8 @@
     "product": "Remortgage",
     "Jurisdiction": "E&W",
     "latitude": 51.371761,
-    "longitude": -0.101367
+    "longitude": -0.101367,
+    "county": "Greater London"
   },
   {
     "caseId": "CASE016",
@@ -167,7 +194,8 @@
     "product": "Remortgage",
     "Jurisdiction": "E&W",
     "latitude": 51.752222,
-    "longitude": -1.257778
+    "longitude": -1.257778,
+    "county": "Oxfordshire"
   },
   {
     "caseId": "CASE017",
@@ -184,7 +212,8 @@
     "product": "Remortgage",
     "Jurisdiction": "E&W",
     "latitude": 52.9225,
-    "longitude": -1.474167
+    "longitude": -1.474167,
+    "county": "Derbyshire"
   },
   {
     "caseId": "CASE018",
@@ -201,7 +230,8 @@
     "product": "Remortgage",
     "Jurisdiction": "E&W",
     "latitude": 53.9579,
-    "longitude": -1.0858
+    "longitude": -1.0858,
+    "county": "North Yorkshire"
   },
   {
     "caseId": "CASE019",
@@ -218,7 +248,8 @@
     "product": "Remortgage",
     "Jurisdiction": "E&W",
     "latitude": 51.3813,
-    "longitude": -2.3590
+    "longitude": -2.359,
+    "county": "Somerset"
   },
   {
     "caseId": "CASE020",
@@ -235,6 +266,7 @@
     "product": "Remortgage",
     "Jurisdiction": "E&W",
     "latitude": 50.8298,
-    "longitude": -0.1646
+    "longitude": -0.1646,
+    "county": "Isle of Anglesey"
   }
 ]

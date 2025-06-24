@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import caseData from "../data/case.json";
 import "../styles/casespage.css";
 
 const CasesPage: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const title = location.state?.title || "Cases";
 
   // Pagination logic
@@ -21,7 +22,16 @@ const CasesPage: React.FC = () => {
       <Header pageTitle={title} />
 
       <section className="section-block">
-        <div className="section-header">{caseData.length} New cases</div>
+        <div className="section-header section-header-flex">
+          <span>{caseData.length} New cases</span>
+          <button
+            className="map-view-btn"
+            onClick={() => navigate("/map", { state: { title: "Case Map" } })}
+          >
+            View on Map
+          </button>
+        </div>
+
 
         <div className="case-table-header">
           <span>Estate Agent</span>

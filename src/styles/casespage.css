@@ -11,6 +11,12 @@
   font-size: 1rem;
 }
 
+.section-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .case-table-header {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -96,4 +102,24 @@
 .pagination button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+.map-view-btn {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  width: auto;
+  max-width: 200px;
+}
+
+.map-view-btn:hover {
+  background-color: #005fa3;
 }

@@ -32,7 +32,13 @@ const Header: React.FC<HeaderProps> = ({ pageTitle }) => {
   const togglePage = () => {
     const currentPath = location.pathname;
 
-    if (currentPath === "/graph" || currentPath === "/cases") {
+    if (currentPath === "/map") {
+      navigate("/cases");
+    }
+
+    if (currentPath === "/map") {
+      navigate("/cases");
+    } else if (currentPath === "/cases" || currentPath === "/graph") {
       navigate("/home");
     } else {
       navigate("/graph");
@@ -61,7 +67,16 @@ const Header: React.FC<HeaderProps> = ({ pageTitle }) => {
                   alignItems: "center",
                 }}
               >
-                <i className={`fas ${location.pathname === "/graph" || location.pathname === "/cases" ? "fa-home" : "fa-chart-line"}`} />
+                {/* <i className={`fas ${location.pathname === "/graph" || location.pathname === "/cases" || location.pathname === "/map" ? "fa-home" : "fa-chart-line"}`} /> */}
+                <i
+                  className={`fas ${
+                    location.pathname === "/map"
+                      ? "fa-briefcase"
+                      : location.pathname === "/graph" || location.pathname === "/cases"
+                      ? "fa-home"
+                      : "fa-chart-line"
+                  }`}
+                />
                 &nbsp;&nbsp;&nbsp;&nbsp;
               </span>
 
