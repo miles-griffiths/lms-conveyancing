@@ -9,7 +9,7 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import { useEffect, useState } from "react";
-import caseData from "../data/case.json";
+import rawData from "../data/remortgage-cases.json"; // New data
 import "leaflet/dist/leaflet.css";
 import "../styles/casemap.css";
 
@@ -32,13 +32,43 @@ function ZoomWatcher({ onZoomChange }: { onZoomChange: (z: number) => void }) {
   return null;
 }
 
+const transformCases = (): Case[] => {
+  return Object.values(rawData)
+    .map((entry: any) => {
+      const addr = entry.property?.address;
+      const borrowers = entry.borrowers?.map((b: any) => `${b.forename} ${b.surname}`).join(", ");
+      const fullAddress = [addr?.propety_number, addr?.address_line_1, addr?.town, addr?.postcode]
+        .filter(Boolean)
+        .join(", ");
+
+      return {
+        caseId: entry.case?.case_id,
+        borrowerName: borrowers || "Unknown",
+        address: fullAddress || "N/A",
+        lenderName: entry.lender?.name || "N/A",
+        latitude: addr?.lat ?? null,
+        longitude: addr?.lng ?? null,
+        county: addr?.county || "Unknown",
+      };
+    })
+    .filter(
+      (c) =>
+        typeof c.latitude === "number" &&
+        typeof c.longitude === "number" &&
+        !isNaN(c.latitude) &&
+        !isNaN(c.longitude)
+    );
+};
+
+
+
 export default function CaseMap() {
+  const caseData = transformCases();
   const center: [number, number] = [54.5, -3];
   const [zoom, setZoom] = useState(6);
   const [geoJsonData, setGeoJsonData] = useState<any>(null);
   const [highlightedFeature, setHighlightedFeature] = useState<any | null>(null);
 
-  // Mapping for case.json counties to GeoJSON names
   const countyMap: Record<string, string> = {
     "Greater London": "Greater London",
     "South Yorkshire": "South Yorkshire",
@@ -56,7 +86,6 @@ export default function CaseMap() {
     "Merseyside": "Merseyside",
     "Isle of Anglesey": "Isle of Anglesey",
     "West Midlands": "West Midlands",
-    // Extend this as needed
   };
 
   useEffect(() => {
@@ -85,15 +114,8 @@ export default function CaseMap() {
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="&copy; OpenStreetMap contributors"
-
-          // url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-          // attribution="© OpenStreetMap & CartoDB"
-
-          // url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
-          // attribution="Tiles © Esri"
         />
 
-        {/* Show hovered outline */}
         {highlightedFeature && (
           <GeoJSON
             key={highlightedFeature.properties.county}
@@ -127,15 +149,15 @@ export default function CaseMap() {
                   eventHandlers={{
                     mouseover: () => {
                       if (!geoJsonData) return;
-                        const mapped = countyMap[county] || county;
+                      const mapped = countyMap[county] || county;
 
-                        const match = geoJsonData.features.find(
-                          (f: any) =>
-                            (f.properties?.county || "").toLowerCase() === (mapped || "").toLowerCase()
-                        );
+                      const match = geoJsonData.features.find(
+                        (f: any) =>
+                          (f.properties?.county || "").toLowerCase() === (mapped || "").toLowerCase()
+                      );
 
-                        setHighlightedFeature(match || null);
-                      },
+                      setHighlightedFeature(match || null);
+                    },
                     mouseout: () => setHighlightedFeature(null),
                   }}
                 >
