@@ -14,6 +14,12 @@ const HomeGraph: React.FC = () => {
     if (!containerRef.current) return;
 
     const ogma = new Ogma({ container: containerRef.current });
+        
+    console.log("Ogma instance:", ogma);
+    console.log("Ogma.Geo:", (Ogma as any).Geo); // Static access, for plugin presence
+    console.log("Geo API available:", ogma.geo !== undefined);
+
+
 
     const topLevelSectionIds = menuData.edges
       .filter(edge => edge.source === "home")

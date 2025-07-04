@@ -123,3 +123,18 @@
 .map-view-btn:hover {
   background-color: #005fa3;
 }
+
+.case-search {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0.5rem 1rem 1rem auto;
+  max-width: 400px;
+}
+
+.search-input {
+  width: 400px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
