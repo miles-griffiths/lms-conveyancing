@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import HomeGraph from "./pages/HomeGraph";
 import CasesPage from "./pages/CasesPage";
 import MapPage from "./pages/MapPage";
-import OgmaMapPage from "./pages/OgmaMapPage"
+import GeoMapPage from "./pages/GeoMapPage";
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       <Route path="/graph" element={<HomeGraph />} />
       <Route path="/cases" element={<CasesPage />} />
       <Route path="/map" element={<MapPage />} />
-      <Route path="/ogmamap" element={<OgmaMapPage/>} />
+      <Route path="/geomap" element={<GeoMapPage/>} />
     </Routes>
   );
 }
