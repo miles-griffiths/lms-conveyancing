@@ -5,6 +5,7 @@ import HomeGraph from "./pages/HomeGraph";
 import CasesPage from "./pages/CasesPage";
 import MapPage from "./pages/MapPage";
 import GeoMapPage from "./pages/GeoMapPage";
+import GraphPage from "./pages/GraphPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/cases" element={<CasesPage />} />
       <Route path="/map" element={<MapPage />} />
       <Route path="/geomap" element={<GeoMapPage/>} />
+      <Route path="/graphpage" element={<GraphPage/>} />
     </Routes>
   );
 }

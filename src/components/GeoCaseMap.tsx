@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Ogma from "@linkurious/ogma";
+import L from "leaflet";
+import Supercluster from "supercluster";
 import "../styles/geomappage.css";
 import remortgageCases from "../data/remortgage-cases.json";
 
@@ -11,28 +13,33 @@ type CaseNode = {
   county: string;
 };
 
-const ZOOM_THRESHOLD = 9;
+type GeoJsonPoint = {
+  type: "Feature";
+  properties: {
+    id: string;
+    label: string;
+  };
+  geometry: {
+    type: "Point";
+    coordinates: [number, number];
+  };
+};
 
 const GeoCaseMap: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const ogmaRef = useRef<Ogma | null>(null);
+  const clusterIndexRef = useRef<Supercluster | null>(null);
+  const updateRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const ogma = new Ogma({ container: containerRef.current });
-    ogmaRef.current = ogma;
-
-    // ✅ Compatible text rule for Ogma v5.3.0 (no offsetY)
-    ogma.styles.addRule({
-      nodeAttributes: {
-        text: {
-          color: "#000000",
-          size: 14,
-          content: (node) => node.getData("label"),
-        },
-      },
+    Ogma.libraries["leaflet"] = L;
+    const ogma = new Ogma({
+      container: containerRef.current,
+      renderer: "webgl",
     });
+    ogmaRef.current = ogma;
 
     const caseNodes: CaseNode[] = Object.entries(remortgageCases)
       .map(([id, entry]: any) => {
@@ -53,104 +60,95 @@ const GeoCaseMap: React.FC = () => {
         }
         return null;
       })
-      .filter(Boolean) as CaseNode[];
+      .filter((n): n is CaseNode => n !== null);
 
-    const createCountyClusters = () => {
-      const groups = caseNodes.reduce<Record<string, CaseNode[]>>((acc, node) => {
-        acc[node.county] = acc[node.county] || [];
-        acc[node.county].push(node);
-        return acc;
-      }, {});
+    const geoJsonPoints: GeoJsonPoint[] = caseNodes.map((n) => ({
+      type: "Feature",
+      properties: { id: n.id, label: n.label },
+      geometry: {
+        type: "Point",
+        coordinates: [n.longitude, n.latitude],
+      },
+    }));
 
-      const result = [];
+    const clusterIndex = new Supercluster({
+      radius: 60,
+      maxZoom: 18,
+    }).load(geoJsonPoints);
+    clusterIndexRef.current = clusterIndex;
 
-      for (const [county, cases] of Object.entries(groups)) {
-        const lat = cases.reduce((sum, n) => sum + n.latitude, 0) / cases.length;
-        const lng = cases.reduce((sum, n) => sum + n.longitude, 0) / cases.length;
-        const caseCount = cases.length;
+    const update = () => {
+      const ogma = ogmaRef.current;
+      const map = ogma?.geo.getMap();
+      const clusterIndex = clusterIndexRef.current;
+      if (!ogma || !map || !clusterIndex) return;
 
-        result.push({
-          id: `county-${county}`,
+      const bounds = map.getBounds();
+      const zoom = map.getZoom();
+
+      const bbox: [number, number, number, number] = [
+        bounds.getWest(),
+        bounds.getSouth(),
+        bounds.getEast(),
+        bounds.getNorth(),
+      ];
+
+      const clusters = clusterIndex.getClusters(bbox, zoom);
+
+      const nodes = clusters.map((c: any) => {
+        const [lng, lat] = c.geometry.coordinates;
+        const isCluster = !!c.properties.cluster;
+        return {
+          id: isCluster ? `cluster-${c.id}` : c.properties.id,
           data: {
             latitude: lat,
             longitude: lng,
-            label: `${caseCount}`, // ✅ store label in data
           },
           attributes: {
-            radius: Math.min(30 + caseCount, 60),
-            color: "#ffa500",
+            radius: isCluster ? 15 : 5,
+            color: isCluster ? "#ffa500" : "#4da6ff",
+            text: {
+              content: isCluster ? `${c.properties.point_count_abbreviated}` : "",
+              position: "center" as const,
+              size: 14,
+              color: "#000",
+            },
           },
-        });
-      }
+        };
+      });
 
-      return result;
+      ogma.setGraph({ nodes, edges: [] });
+      console.log("📍 Updated graph with", nodes.length, "nodes at zoom", zoom);
     };
 
-    const loadClusters = async () => {
-      const ogma = ogmaRef.current;
-      if (!ogma) return;
-
-      const clusterNodes = createCountyClusters();
-      await ogma.clearGraph();
-      await ogma.addNodes(clusterNodes);
-      console.log("🧩 Loaded clusters (WebGL)");
-    };
-
-    const loadIndividualNodes = async () => {
-      const ogma = ogmaRef.current;
-      if (!ogma) return;
-
-      const rawNodes = caseNodes.map((n) => ({
-        id: n.id,
-        label: n.label,
-        data: {
-          latitude: n.latitude,
-          longitude: n.longitude,
-        },
-        attributes: {
-          radius: 5,
-          color: "#4da6ff",
-        },
-      }));
-
-      await ogma.clearGraph();
-      await ogma.addNodes(rawNodes);
-      console.log("🔍 Loaded individual nodes");
-    };
+    updateRef.current = update;
 
     const setup = async () => {
-      const ogma = ogmaRef.current;
-      if (!ogma) return;
-
       await ogma.geo.enable();
 
       const map = ogma.geo.getMap();
       if (!map) return;
 
-      map.setView([54.5, -3], 6);
+      map.setView([54.5, -3], 6); // Center on UK
 
-      let currentMode: "cluster" | "individual" = "cluster";
-
-      setTimeout(() => {
-        loadClusters();
-      }, 100);
-
-      map.on("zoomend", async () => {
-        const z = map.getZoom();
-        if (z >= ZOOM_THRESHOLD && currentMode !== "individual") {
-          await loadIndividualNodes();
-          currentMode = "individual";
-        } else if (z < ZOOM_THRESHOLD && currentMode !== "cluster") {
-          await loadClusters();
-          currentMode = "cluster";
-        }
+      ogma.styles.setHoveredNodeAttributes({
+        text: { backgroundColor: "#000" },
       });
+
+      ogma.events.on("viewChanged", update);
+      update(); // Initial load
     };
 
     setup();
 
     return () => {
-      ogmaRef.current?.destroy();
+      const ogma = ogmaRef.current;
+      const update = updateRef.current;
+
+      if (ogma && update) {
+        ogma.events.off(update); // ✅ Your version only accepts the listener
+        ogma.destroy();
+      }
     };
   }, []);
 
