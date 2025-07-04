@@ -1,11 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Ogma from "@linkurious/ogma";
-import * as leaflet from "leaflet";
-import "leaflet/dist/leaflet.css";
-import "../styles/graphmap.css";
+import "../styles/geomappage.css";
 import remortgageCases from "../data/remortgage-cases.json";
-
-Ogma.libraries["leaflet"] = leaflet;
 
 type CaseNode = {
   id: string;
@@ -17,16 +13,26 @@ type CaseNode = {
 
 const ZOOM_THRESHOLD = 9;
 
-const GraphMap: React.FC = () => {
+const GeoCaseMap: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const ogmaRef = useRef<Ogma | null>(null);
-  const countyLayerRef = useRef<leaflet.GeoJSON | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
     const ogma = new Ogma({ container: containerRef.current });
     ogmaRef.current = ogma;
+
+    // ✅ Compatible text rule for Ogma v5.3.0 (no offsetY)
+    ogma.styles.addRule({
+      nodeAttributes: {
+        text: {
+          color: "#000000",
+          size: 14,
+          content: (node) => node.getData("label"),
+        },
+      },
+    });
 
     const caseNodes: CaseNode[] = Object.entries(remortgageCases)
       .map(([id, entry]: any) => {
@@ -56,29 +62,44 @@ const GraphMap: React.FC = () => {
         return acc;
       }, {});
 
-      return Object.entries(groups).map(([county, cases]) => {
+      const result = [];
+
+      for (const [county, cases] of Object.entries(groups)) {
         const lat = cases.reduce((sum, n) => sum + n.latitude, 0) / cases.length;
         const lng = cases.reduce((sum, n) => sum + n.longitude, 0) / cases.length;
-        return {
+        const caseCount = cases.length;
+
+        result.push({
           id: `county-${county}`,
-          label: `${cases.length} case${cases.length > 1 ? "s" : ""}`,
-          data: { latitude: lat, longitude: lng },
+          data: {
+            latitude: lat,
+            longitude: lng,
+            label: `${caseCount}`, // ✅ store label in data
+          },
           attributes: {
-            radius: Math.min(5 + cases.length * 0.8, 50),
+            radius: Math.min(30 + caseCount, 60),
             color: "#ffa500",
           },
-        };
-      });
+        });
+      }
+
+      return result;
     };
 
     const loadClusters = async () => {
+      const ogma = ogmaRef.current;
+      if (!ogma) return;
+
       const clusterNodes = createCountyClusters();
       await ogma.clearGraph();
       await ogma.addNodes(clusterNodes);
-      console.log("🧩 Loaded clusters");
+      console.log("🧩 Loaded clusters (WebGL)");
     };
 
     const loadIndividualNodes = async () => {
+      const ogma = ogmaRef.current;
+      if (!ogma) return;
+
       const rawNodes = caseNodes.map((n) => ({
         id: n.id,
         label: n.label,
@@ -94,54 +115,14 @@ const GraphMap: React.FC = () => {
 
       await ogma.clearGraph();
       await ogma.addNodes(rawNodes);
-      console.log("🔍 Loaded individuals");
-    };
-
-    const loadCountyShapes = async () => {
-      const res = await fetch("/data/uk-counties.geojson");
-      const geoJson = await res.json();
-
-      const map = ogmaRef.current?.geo.getMap();
-      if (!map) return;
-
-      const defaultStyle = {
-        color: "#ffa500",
-        weight: 1,
-        fillOpacity: 0.1,
-      };
-
-      const hoverStyle = {
-        color: "red",
-        weight: 2,
-        fillOpacity: 0.15,
-      };
-
-      const countyLayer = leaflet.geoJSON(geoJson, {
-        style: defaultStyle,
-        onEachFeature: (feature, layer) => {
-          const pathLayer = layer as leaflet.Path;
-
-          pathLayer.on("mouseover", () => {
-            pathLayer.setStyle(hoverStyle);
-            pathLayer.bringToFront();
-          });
-
-          pathLayer.on("mouseout", () => {
-            pathLayer.setStyle(defaultStyle);
-          });
-        },
-      });
-
-      countyLayer.addTo(map);
-      countyLayerRef.current = countyLayer;
-
-      console.log("🗺️ Added county shapes with hover effect");
+      console.log("🔍 Loaded individual nodes");
     };
 
     const setup = async () => {
+      const ogma = ogmaRef.current;
+      if (!ogma) return;
+
       await ogma.geo.enable();
-      await loadCountyShapes();
-      await loadClusters();
 
       const map = ogma.geo.getMap();
       if (!map) return;
@@ -149,6 +130,10 @@ const GraphMap: React.FC = () => {
       map.setView([54.5, -3], 6);
 
       let currentMode: "cluster" | "individual" = "cluster";
+
+      setTimeout(() => {
+        loadClusters();
+      }, 100);
 
       map.on("zoomend", async () => {
         const z = map.getZoom();
@@ -165,11 +150,11 @@ const GraphMap: React.FC = () => {
     setup();
 
     return () => {
-      ogma.destroy();
+      ogmaRef.current?.destroy();
     };
   }, []);
 
   return <div id="geo-map-container" ref={containerRef} />;
 };
 
-export default GraphMap;
+export default GeoCaseMap;
